@@ -1,0 +1,574 @@
+object frmPrincipal: TfrmPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'frmPrincipal'
+  ClientHeight = 588
+  ClientWidth = 880
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  WindowState = wsMaximized
+  PixelsPerInch = 96
+  TextHeight = 13
+  object panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 880
+    Height = 217
+    Align = alTop
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 8
+      Top = 8
+      Width = 64
+      Height = 13
+      Caption = 'Caminho Xml:'
+    end
+    object Label2: TLabel
+      Left = 28
+      Top = 83
+      Width = 44
+      Height = 13
+      Caption = 'Barras 1:'
+    end
+    object Label3: TLabel
+      Left = 194
+      Top = 163
+      Width = 119
+      Height = 13
+      Caption = 'Quantidade de Registros'
+    end
+    object Label4: TLabel
+      Left = 7
+      Top = 58
+      Width = 65
+      Height = 13
+      Caption = 'C'#243'd. F'#225'brica:'
+    end
+    object Label5: TLabel
+      Left = 22
+      Top = 107
+      Width = 50
+      Height = 13
+      Caption = 'Descri'#231#227'o:'
+    end
+    object Label6: TLabel
+      Left = 474
+      Top = 163
+      Width = 131
+      Height = 13
+      Caption = 'Pesquisar C'#243'digo de Barras'
+    end
+    object Label7: TLabel
+      Left = 7
+      Top = 132
+      Width = 65
+      Height = 13
+      Caption = 'Rem.Palavra:'
+    end
+    object Label8: TLabel
+      Left = 616
+      Top = 113
+      Width = 114
+      Height = 13
+      Caption = 'Palavra a Ser Removida'
+    end
+    object Label9: TLabel
+      Left = 616
+      Top = 67
+      Width = 29
+      Height = 13
+      Caption = 'Marca'
+    end
+    object Label10: TLabel
+      Left = 616
+      Top = 157
+      Width = 52
+      Height = 13
+      Caption = 'Refer'#234'ncia'
+    end
+    object edtXml: TEdit
+      Left = 72
+      Top = 5
+      Width = 528
+      Height = 21
+      TabOrder = 0
+    end
+    object btnInserirXml: TButton
+      Left = 72
+      Top = 27
+      Width = 75
+      Height = 25
+      Caption = 'Inserir Xml'
+      TabOrder = 1
+      OnClick = btnInserirXmlClick
+    end
+    object btnImportarXml: TButton
+      Left = 148
+      Top = 27
+      Width = 75
+      Height = 25
+      Caption = 'Importar XML'
+      TabOrder = 2
+      OnClick = btnImportarXmlClick
+    end
+    object btnCompararXml: TButton
+      Left = 224
+      Top = 27
+      Width = 75
+      Height = 25
+      Caption = 'Comparar Xml'
+      TabOrder = 3
+      OnClick = btnCompararXmlClick
+    end
+    object DBNavigator1: TDBNavigator
+      Left = 376
+      Top = 27
+      Width = 224
+      Height = 25
+      DataSource = dsImportaXml
+      VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+      TabOrder = 4
+    end
+    object btnGenero: TButton
+      Left = 300
+      Top = 27
+      Width = 75
+      Height = 25
+      Caption = 'Genero'
+      TabOrder = 5
+      OnClick = btnGeneroClick
+    end
+    object edtBarras1: TEdit
+      Left = 72
+      Top = 79
+      Width = 121
+      Height = 21
+      TabOrder = 6
+      OnClick = edtBarras1Click
+      OnKeyPress = edtBarras1KeyPress
+      OnMouseUp = edtBarras1MouseUp
+    end
+    object Button1: TButton
+      Left = 0
+      Top = 174
+      Width = 75
+      Height = 25
+      Caption = 'Filtrar'
+      TabOrder = 7
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 81
+      Top = 174
+      Width = 104
+      Height = 25
+      Caption = 'Remover Filtro'
+      TabOrder = 8
+      OnClick = Button2Click
+    end
+    object Edit1: TEdit
+      Left = 194
+      Top = 176
+      Width = 121
+      Height = 21
+      TabOrder = 9
+    end
+    object Button3: TButton
+      Left = 316
+      Top = 174
+      Width = 75
+      Height = 25
+      Caption = 'Calcular'
+      TabOrder = 10
+      OnClick = Button3Click
+    end
+    object edtCodigoFabrica: TEdit
+      Left = 72
+      Top = 55
+      Width = 121
+      Height = 21
+      TabOrder = 11
+      OnClick = edtCodigoFabricaClick
+      OnMouseUp = edtCodigoFabricaMouseUp
+    end
+    object edtDescricao: TEdit
+      Left = 72
+      Top = 102
+      Width = 528
+      Height = 21
+      TabOrder = 12
+      OnClick = edtDescricaoClick
+      OnMouseUp = edtDescricaoMouseUp
+    end
+    object btnExcel: TButton
+      Left = 393
+      Top = 174
+      Width = 75
+      Height = 25
+      Caption = 'Excel'
+      TabOrder = 13
+      OnClick = btnExcelClick
+    end
+    object edtPesquisarBarras: TEdit
+      Left = 474
+      Top = 176
+      Width = 131
+      Height = 21
+      TabOrder = 14
+      OnChange = edtPesquisarBarrasChange
+      OnExit = edtPesquisarBarrasExit
+    end
+    object Button4: TButton
+      Left = 381
+      Top = 71
+      Width = 75
+      Height = 25
+      Caption = 'Button4'
+      TabOrder = 15
+      Visible = False
+      OnClick = Button4Click
+    end
+    object btnImportarXmlNormal: TButton
+      Left = 224
+      Top = 53
+      Width = 151
+      Height = 25
+      Caption = 'Importar XML Normal'
+      TabOrder = 16
+      OnClick = btnImportarXmlNormalClick
+    end
+    object btnCompararXmlNormal: TButton
+      Left = 224
+      Top = 77
+      Width = 151
+      Height = 25
+      Caption = 'Comparar XML Normal'
+      TabOrder = 17
+      OnClick = btnCompararXmlNormalClick
+    end
+    object edtRemoverPalavra: TEdit
+      Left = 72
+      Top = 129
+      Width = 528
+      Height = 21
+      TabOrder = 18
+      OnClick = edtRemoverPalavraClick
+      OnKeyPress = edtRemoverPalavraKeyPress
+      OnMouseUp = edtRemoverPalavraMouseUp
+    end
+    object edtPalavraSerRemovida: TEdit
+      Left = 616
+      Top = 129
+      Width = 233
+      Height = 21
+      TabOrder = 19
+    end
+    object edtMarca: TEdit
+      Left = 616
+      Top = 86
+      Width = 233
+      Height = 21
+      TabOrder = 20
+    end
+    object edtReferencia: TEdit
+      Left = 616
+      Top = 176
+      Width = 233
+      Height = 21
+      TabOrder = 21
+      Text = 'Ref'
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 217
+    Width = 880
+    Height = 371
+    Align = alClient
+    TabOrder = 1
+    object DBGrid1: TDBGrid
+      Left = 1
+      Top = 1
+      Width = 878
+      Height = 369
+      Align = alClient
+      DataSource = dsImportaXml
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      OnCellClick = DBGrid1CellClick
+      OnDrawColumnCell = DBGrid1DrawColumnCell
+      OnKeyDown = DBGrid1KeyDown
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'nItem'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'cProd'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CodigoProduto'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CodigoProduto2'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'xProd'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'cEAN'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CEST'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'NCM'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'qCom'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'infAdProd'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DescricaoProduto'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'P_BARRAS1'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'P_BARRAS2'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DescricaoNew'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CodigoBarrasTxt'
+          Visible = True
+        end>
+    end
+  end
+  object XMLDocument: TXMLDocument
+    Left = 648
+    Top = 8
+  end
+  object OpenDialog: TOpenDialog
+    Left = 744
+    Top = 8
+  end
+  object conexaoBd: TSQLConnection
+    ConnectionName = 'SisFraldas'
+    DriverName = 'Firebird'
+    LoginPrompt = False
+    Params.Strings = (
+      'DriverName=Firebird'
+      'DriverUnit=Data.DBXFirebird'
+      
+        'DriverPackageLoader=TDBXDynalinkDriverLoader,DbxCommonDriver270.' +
+        'bpl'
+      
+        'DriverAssemblyLoader=Borland.Data.TDBXDynalinkDriverLoader,Borla' +
+        'nd.Data.DbxCommonDriver,Version=24.0.0.0,Culture=neutral,PublicK' +
+        'eyToken=91d62ebb5b0d1b1b'
+      
+        'MetaDataPackageLoader=TDBXFirebirdMetaDataCommandFactory,DbxFire' +
+        'birdDriver270.bpl'
+      
+        'MetaDataAssemblyLoader=Borland.Data.TDBXFirebirdMetaDataCommandF' +
+        'actory,Borland.Data.DbxFirebirdDriver,Version=24.0.0.0,Culture=n' +
+        'eutral,PublicKeyToken=91d62ebb5b0d1b1b'
+      'LibraryName=dbxfb.dll'
+      'LibraryNameOsx=libsqlfb.dylib'
+      'VendorLib=fbclient.dll'
+      'VendorLibWin64=fbclient.dll'
+      'VendorLibOsx=/Library/Frameworks/Firebird.framework/Firebird'
+      
+        'Database=lojadasfraldas.ddns.us:/bminfo/webapps/sisfraldas/bmfra' +
+        'ldas.fdb'
+      'User_Name=sysdba'
+      'Password=fraldas_'
+      'Role=RoleName'
+      'MaxBlobSize=-1'
+      'LocaleCode=0000'
+      'IsolationLevel=ReadCommitted'
+      'SQLDialect=3'
+      'CommitRetain=False'
+      'WaitOnLocks=True'
+      'TrimChar=False'
+      'BlobSize=-1'
+      'ErrorResourceFile='
+      'RoleName=RoleName'
+      'ServerCharSet='
+      'Trim Char=False')
+    Connected = True
+    Left = 48
+    Top = 257
+  end
+  object sdsComparaXml: TSQLDataSet
+    Active = True
+    CommandText = 'select * from produtos'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = conexaoBd
+    Left = 136
+    Top = 257
+  end
+  object dspComparaXml: TDataSetProvider
+    DataSet = sdsComparaXml
+    Options = [poAllowCommandText, poUseQuoteChar]
+    Left = 232
+    Top = 257
+  end
+  object cdsComparaXml: TClientDataSet
+    Active = True
+    Aggregates = <>
+    CommandText = 'select * from produtos'
+    Params = <>
+    ProviderName = 'dspComparaXml'
+    Left = 320
+    Top = 257
+  end
+  object dsComparaXml: TDataSource
+    DataSet = cdsComparaXml
+    Left = 400
+    Top = 257
+  end
+  object cdsImportaXml: TClientDataSet
+    PersistDataPacket.Data = {
+      B00100009619E0BD01000000180000000E000000000003000000B001056E4974
+      656D0100490000000100055749445448020002000A00056350726F6401004900
+      00000100055749445448020002002800057850726F6401004900000001000557
+      49445448020002009600046345414E0100490000000100055749445448020002
+      00120004434553540100490000000100055749445448020002000A00034E434D
+      0100490000000100055749445448020002000A000471436F6D01004900000001
+      00055749445448020002000A0009696E66416450726F64010049000000010005
+      57494454480200020096000D436F6469676F50726F6475746F01004900000001
+      00055749445448020002000A000E436F6469676F50726F6475746F3201004900
+      00000100055749445448020002000A001044657363726963616F50726F647574
+      6F010049000000010005574944544802000200960009505F4241525241533101
+      0049000000010005574944544802000200120009505F42415252415332010049
+      00000001000557494454480200020012000C44657363726963616F4E65770100
+      4900000001000557494454480200020014000000}
+    Active = True
+    Aggregates = <>
+    IndexFieldNames = 'nItem'
+    Params = <>
+    Left = 48
+    Top = 361
+    object cdsImportaXmlnItem: TStringField
+      FieldName = 'nItem'
+      KeyFields = 'nItem'
+      Size = 10
+    end
+    object cdsImportaXmlcProd: TStringField
+      FieldName = 'cProd'
+      Size = 40
+    end
+    object cdsImportaXmlxProd: TStringField
+      FieldName = 'xProd'
+      Size = 150
+    end
+    object cdsImportaXmlcEAN: TStringField
+      FieldName = 'cEAN'
+      Size = 18
+    end
+    object cdsImportaXmlCEST: TStringField
+      FieldName = 'CEST'
+      Size = 10
+    end
+    object cdsImportaXmlNCM: TStringField
+      FieldName = 'NCM'
+      Size = 10
+    end
+    object cdsImportaXmlqCom: TStringField
+      FieldName = 'qCom'
+      Size = 10
+    end
+    object cdsImportaXmlinfAdProd: TStringField
+      FieldName = 'infAdProd'
+      Size = 150
+    end
+    object cdsImportaXmlCodigoProduto: TStringField
+      FieldName = 'CodigoProduto'
+      Size = 10
+    end
+    object cdsImportaXmlCodigoProduto2: TStringField
+      FieldName = 'CodigoProduto2'
+      Size = 10
+    end
+    object cdsImportaXmlDescricaoProduto: TStringField
+      FieldName = 'DescricaoProduto'
+      Size = 150
+    end
+    object cdsImportaXmlP_BARRAS1: TStringField
+      FieldName = 'P_BARRAS1'
+      Size = 18
+    end
+    object cdsImportaXmlP_BARRAS2: TStringField
+      FieldName = 'P_BARRAS2'
+      Size = 18
+    end
+    object cdsImportaXmlDescricaoNew: TStringField
+      FieldName = 'DescricaoNew'
+    end
+    object cdsImportaXmlCodigoBarrasTxt: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'CodigoBarrasTxt'
+      Calculated = True
+    end
+  end
+  object dsImportaXml: TDataSource
+    DataSet = cdsImportaXml
+    Left = 144
+    Top = 361
+  end
+  object SQLQuery1: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'SELECT * FROM PRODUTOS')
+    SQLConnection = conexaoBd
+    Left = 480
+    Top = 257
+  end
+end

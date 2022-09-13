@@ -1,0 +1,321 @@
+object frmGenero: TfrmGenero
+  Left = 0
+  Top = 0
+  Caption = 'frmGenero'
+  ClientHeight = 180
+  ClientWidth = 1036
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 0
+    Width = 1036
+    Height = 180
+    Align = alClient
+    DataSource = dsProdutos
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    OnDrawColumnCell = DBGrid1DrawColumnCell
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'P_ID'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_FANTASIA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_REFERENCIA'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_PRODUTO'
+        Width = 446
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_FABRICA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_MARCA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_COR'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_GRUPO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_CATEGORIA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_SUBCATEGORIA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_TIPO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_TAMANHO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_UNIDADE'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_MEDIDA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_DIAMETRO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_PESO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_BARRAS1'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_BARRAS2'
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_LUCRO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_DESCONTO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_DATACADASTRO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_COMPRA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_ATIVO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_MASCULINO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_FEMININO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_UNISSEX'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'P_QTDEMINIMA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_CEST'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_NCM'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_CFOP'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_TRIBUTACAO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_ORIGEM'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_CSTPIS'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_GTINCOMERCIAL'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_GTINTRIBUTAVEL'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_APARECERSITE'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_TITULO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_HISTORICO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_IMPORTA'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_LIDO'
+        Visible = False
+      end
+      item
+        Expanded = False
+        FieldName = 'P_ALTERADO'
+        Visible = False
+      end>
+  end
+  object conexaoBd: TSQLConnection
+    ConnectionName = 'SisFraldas'
+    DriverName = 'Firebird'
+    LoginPrompt = False
+    Params.Strings = (
+      'DriverName=Firebird'
+      'DriverUnit=Data.DBXFirebird'
+      
+        'DriverPackageLoader=TDBXDynalinkDriverLoader,DbxCommonDriver270.' +
+        'bpl'
+      
+        'DriverAssemblyLoader=Borland.Data.TDBXDynalinkDriverLoader,Borla' +
+        'nd.Data.DbxCommonDriver,Version=24.0.0.0,Culture=neutral,PublicK' +
+        'eyToken=91d62ebb5b0d1b1b'
+      
+        'MetaDataPackageLoader=TDBXFirebirdMetaDataCommandFactory,DbxFire' +
+        'birdDriver270.bpl'
+      
+        'MetaDataAssemblyLoader=Borland.Data.TDBXFirebirdMetaDataCommandF' +
+        'actory,Borland.Data.DbxFirebirdDriver,Version=24.0.0.0,Culture=n' +
+        'eutral,PublicKeyToken=91d62ebb5b0d1b1b'
+      'LibraryName=dbxfb.dll'
+      'LibraryNameOsx=libsqlfb.dylib'
+      'VendorLib=fbclient.dll'
+      'VendorLibWin64=fbclient.dll'
+      'VendorLibOsx=/Library/Frameworks/Firebird.framework/Firebird'
+      
+        'Database=lojadasfraldas.ddns.us:/bminfo/webapps/sisfraldas/bmfra' +
+        'ldas.fdb'
+      'User_Name=sysdba'
+      'Password=fraldas_'
+      'Role=RoleName'
+      'MaxBlobSize=-1'
+      'LocaleCode=0000'
+      'IsolationLevel=ReadCommitted'
+      'SQLDialect=3'
+      'CommitRetain=False'
+      'WaitOnLocks=True'
+      'TrimChar=False'
+      'BlobSize=-1'
+      'ErrorResourceFile='
+      'RoleName=RoleName'
+      'ServerCharSet='
+      'Trim Char=False')
+    Connected = True
+    Left = 32
+    Top = 72
+  end
+  object sdsProdutos: TSQLDataSet
+    CommandText = 'select first 5 * from produtos'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = conexaoBd
+    Left = 96
+    Top = 72
+  end
+  object dspProdutos: TDataSetProvider
+    DataSet = sdsProdutos
+    Options = [poAllowCommandText, poUseQuoteChar]
+    Left = 160
+    Top = 72
+  end
+  object cdsProdutos: TClientDataSet
+    Active = True
+    Aggregates = <>
+    CommandText = 'select first 5 * from produtos'
+    Params = <>
+    ProviderName = 'dspProdutos'
+    Left = 224
+    Top = 72
+  end
+  object dsProdutos: TDataSource
+    DataSet = cdsProdutos
+    Left = 288
+    Top = 72
+  end
+end

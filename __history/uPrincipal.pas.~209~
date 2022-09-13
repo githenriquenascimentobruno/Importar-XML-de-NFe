@@ -1,0 +1,647 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.Grids,
+  Vcl.DBGrids, Xml.xmldom, Xml.XMLIntf, Vcl.StdCtrls, Xml.XMLDoc, Data.FMTBcd,
+  Datasnap.DBClient, Datasnap.Provider, Data.SqlExpr, Data.DBXFirebird, System.StrUtils,
+  Vcl.DBCtrls, ClipBrd, ComObj;
+
+type
+  TfrmPrincipal = class(TForm)
+    panel1: TPanel;
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    XMLDocument: TXMLDocument;
+    OpenDialog: TOpenDialog;
+    edtXml: TEdit;
+    Label1: TLabel;
+    btnInserirXml: TButton;
+    btnImportarXml: TButton;
+    btnCompararXml: TButton;
+    conexaoBd: TSQLConnection;
+    sdsComparaXml: TSQLDataSet;
+    dspComparaXml: TDataSetProvider;
+    cdsComparaXml: TClientDataSet;
+    dsComparaXml: TDataSource;
+    cdsImportaXml: TClientDataSet;
+    dsImportaXml: TDataSource;
+    SQLQuery1: TSQLQuery;
+    cdsImportaXmlnItem: TStringField;
+    cdsImportaXmlcProd: TStringField;
+    cdsImportaXmlxProd: TStringField;
+    cdsImportaXmlcEAN: TStringField;
+    cdsImportaXmlCEST: TStringField;
+    cdsImportaXmlNCM: TStringField;
+    cdsImportaXmlqCom: TStringField;
+    cdsImportaXmlinfAdProd: TStringField;
+    cdsImportaXmlCodigoProduto: TStringField;
+    cdsImportaXmlCodigoProduto2: TStringField;
+    cdsImportaXmlDescricaoProduto: TStringField;
+    cdsImportaXmlP_BARRAS1: TStringField;
+    cdsImportaXmlP_BARRAS2: TStringField;
+    cdsImportaXmlDescricaoNew: TStringField;
+    DBNavigator1: TDBNavigator;
+    btnGenero: TButton;
+    edtBarras1: TEdit;
+    Label2: TLabel;
+    Button1: TButton;
+    Button2: TButton;
+    Edit1: TEdit;
+    Label3: TLabel;
+    Button3: TButton;
+    Label4: TLabel;
+    edtCodigoFabrica: TEdit;
+    Label5: TLabel;
+    edtDescricao: TEdit;
+    btnExcel: TButton;
+    edtPesquisarBarras: TEdit;
+    Label6: TLabel;
+    Button4: TButton;
+    btnImportarXmlNormal: TButton;
+    btnCompararXmlNormal: TButton;
+    edtRemoverPalavra: TEdit;
+    Label7: TLabel;
+    edtPalavraSerRemovida: TEdit;
+    Label8: TLabel;
+    edtMarca: TEdit;
+    Label9: TLabel;
+    edtReferencia: TEdit;
+    Label10: TLabel;
+    cdsImportaXmlCodigoBarrasTxt: TStringField;
+    btnImportarTxt: TButton;
+    Memo1: TMemo;
+    DBGrid2: TDBGrid;
+    cdsImportaTxt: TClientDataSet;
+    dsImportaTxt: TDataSource;
+    cdsImportaTxtCodigoBarrasTxt: TStringField;
+    btnCopiarCodigoEan: TButton;
+    procedure btnInserirXmlClick(Sender: TObject);
+    procedure btnImportarXmlClick(Sender: TObject);
+    procedure btnCompararXmlClick(Sender: TObject);
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure btnGeneroClick(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
+    procedure edtBarras1KeyPress(Sender: TObject; var Key: Char);
+    procedure edtBarras1Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure edtCodigoFabricaMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure edtBarras1MouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure edtDescricaoMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure edtCodigoFabricaClick(Sender: TObject);
+    procedure edtDescricaoClick(Sender: TObject);
+    procedure ExportarToExcel;
+    procedure btnExcelClick(Sender: TObject);
+    procedure edtPesquisarBarrasChange(Sender: TObject);
+    procedure edtPesquisarBarrasExit(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure btnImportarXmlNormalClick(Sender: TObject);
+    procedure btnCompararXmlNormalClick(Sender: TObject);
+    procedure DBGrid1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtRemoverPalavraKeyPress(Sender: TObject; var Key: Char);
+    procedure edtRemoverPalavraMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure edtRemoverPalavraClick(Sender: TObject);
+    procedure btnImportarTxtClick(Sender: TObject);
+    procedure btnCopiarCodigoEanClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+uses uCodigoBarras;
+
+Function RemoverPalavras(Frase,Palavra_Remover:String): String;
+Var
+  Aux: String;
+begin
+  Aux := ' ' + Frase + ' ';
+  Aux := StringReplace(Aux,' '+Palavra_Remover+' ',' ',[rfReplaceAll]);
+  Result := Copy(Aux,2,Length(Aux)-1);
+end;
+
+function CopyReverse(S: String; Index, Count : Integer) : String;
+begin
+  Result := ReverseString(S);
+  Result := Copy(Result, Index, Count);
+  Result := ReverseString(Result);
+end;
+
+function ReverseString(const AText: string): string;
+var
+  I: Integer;
+  P: PChar;
+begin
+  SetLength(Result, Length(AText));
+  P := PChar(Result);
+  for I := High(AText) downto Low(AText) do
+  begin
+    P^ := AText[I];
+    Inc(P);
+  end;
+end;
+
+
+
+
+
+
+
+
+procedure TfrmPrincipal.btnCompararXmlClick(Sender: TObject);
+var CodigoProduto2 : string;
+var I: Integer;
+begin
+   cdsComparaXml.Refresh;
+   cdsImportaXml.First;
+   cdsComparaXml.First;
+   while not cdsImportaXml.Eof do
+
+   begin
+      // procura pelo código de barras no cadastro
+      if cdsComparaXml.Locate('P_BARRAS1', cdsImportaXml.FieldByName('DescricaoNew').AsString, []) then
+      begin
+          //Incrementa automaticamente o EDIT do codigo
+          with SQLQuery1 do
+              begin
+                  Close;
+                  SQL.Clear;
+                  SQL.Text := 'SELECT P_BARRAS1, COUNT(P_BARRAS1) FROM Produtos where P_BARRAS1 = ' + QuotedStr(cdsImportaXml.FieldByName('DescricaoNew').AsString) + 'GROUP BY P_BARRAS1';
+                  Open;
+                  CodigoProduto2 := SQLQuery1.FieldByName('COUNT').AsString;
+              end;
+         // atribui ao campo CodigoProduto do ClientDataset1 o conteúdo do campo P_ID do ClientDataset2
+         cdsImportaXml.Edit;
+         cdsImportaXml.FieldByName('CodigoProduto').AsString := cdsComparaXml.FieldByName('P_ID').AsString;
+         //cdsImporta.FieldByName('CodigoProduto2').AsString := SQLQuery1.FieldByName('COUNT').AsString;
+         cdsImportaXml.FieldByName('CodigoProduto2').AsInteger := StrToInt(CodigoProduto2);
+         cdsImportaXml.FieldByName('DescricaoProduto').AsString := cdsComparaXml.FieldByName('P_PRODUTO').AsString;
+         cdsImportaXml.FieldByName('P_BARRAS1').AsString := cdsComparaXml.FieldByName('P_BARRAS1').AsString;
+         cdsImportaXml.FieldByName('P_BARRAS2').AsString := cdsComparaXml.FieldByName('P_BARRAS2').AsString;
+         cdsImportaXml.Post;
+      end;
+      // segue para o próximo registro do ClientDataset1
+      cdsImportaXml.Next;
+
+
+   end;
+   cdsImportaXml.First;
+end;
+
+procedure TfrmPrincipal.btnCompararXmlNormalClick(Sender: TObject);
+var CodigoProduto2 : string;
+begin
+
+
+
+
+   cdsComparaXml.Refresh;
+   cdsImportaXml.First;
+
+
+
+
+
+   while not cdsImportaXml.Eof do
+   begin
+      // procura pelo código de barras no cadastro
+      if cdsComparaXml.Locate('P_BARRAS1', cdsImportaXml.FieldByName('cEAN').AsString, []) then
+      begin
+
+                       //Incrementa automaticamente o EDIT do codigo
+          with SQLQuery1 do
+              begin
+                  Close;
+                  SQL.Clear;
+                  SQL.Text := 'SELECT P_BARRAS1, COUNT(P_BARRAS1) FROM Produtos where P_BARRAS1 = ' + QuotedStr(cdsImportaXml.FieldByName('cEAN').AsString) + 'GROUP BY P_BARRAS1';
+                  Open;
+                  CodigoProduto2 := SQLQuery1.FieldByName('COUNT').AsString;
+
+              end;
+
+
+
+
+;
+         // atribui ao campo CodigoProduto do ClientDataset1 o conteúdo do campo P_ID do ClientDataset2
+         cdsImportaXml.Edit;
+         cdsImportaXml.FieldByName('CodigoProduto').AsString := cdsComparaXml.FieldByName('P_ID').AsString;
+         //cdsImporta.FieldByName('CodigoProduto2').AsString := SQLQuery1.FieldByName('COUNT').AsString;
+         cdsImportaXml.FieldByName('CodigoProduto2').AsInteger := StrToInt(CodigoProduto2);
+         cdsImportaXml.FieldByName('DescricaoProduto').AsString := cdsComparaXml.FieldByName('P_PRODUTO').AsString;
+         cdsImportaXml.FieldByName('P_BARRAS1').AsString := cdsComparaXml.FieldByName('P_BARRAS1').AsString;
+         cdsImportaXml.FieldByName('P_BARRAS2').AsString := cdsComparaXml.FieldByName('P_BARRAS2').AsString;
+         cdsImportaXml.Post;
+
+      end;
+
+      // segue para o próximo registro do ClientDataset1
+      cdsImportaXml.Next;
+   end;
+end;
+
+procedure TfrmPrincipal.btnCopiarCodigoEanClick(Sender: TObject);
+begin
+cdsImportaTxt.First;
+while not cdsImportaTxt.Eof do
+begin
+  cdsImportaXml.edit;
+
+  cdsImportaXml.FieldByName('CodigoBarrasTxt').Value := cdsImportaTxt.FieldByName('CodigoBarrasTxt').Value;
+
+
+  cdsImportaXml.Post;
+
+  cdsImportaTxt.Next;
+end;
+end;
+
+procedure TfrmPrincipal.btnExcelClick(Sender: TObject);
+begin
+  ExportarToExcel;
+end;
+
+procedure TfrmPrincipal.btnGeneroClick(Sender: TObject);
+begin
+  frmGenero.ShowModal;
+end;
+
+procedure TfrmPrincipal.btnImportarTxtClick(Sender: TObject);
+var
+I: Integer;
+begin
+      Memo1.Lines.LoadFromFile(edtXml.Text);
+      for I := 0 to Pred(Memo1.Lines.Count) do
+      begin
+      //Preparamos a tabela para inclusão
+      cdsImportaTxt.Insert;
+      //Usando a função Copy, pegamos a posição 1 e copiamos 2 caracteres
+      //cdsImportaXmlCodigoBarrasTxt.AsString := Copy(Memo1.Lines.Strings[I],1,20);
+      cdsImportaTxtCodigoBarrasTxt.AsString := Copy(Memo1.Lines.Strings[I],1,Length(Memo1.Lines.Strings[I]));
+      //Gravamos o registro
+      cdsImportaTxt.Post;
+      {Serve para atualizar o form toda vez que for incluido um registro,
+      atualizando assim a grid}
+      Application.ProcessMessages;
+      end;
+end;
+
+procedure TfrmPrincipal.btnImportarXmlClick(Sender: TObject);
+var
+  nodeInfNfe: IXMLNode;
+  nodeDet : IXMLNode;
+  i: Integer;
+begin
+
+  XMLDocument.LoadFromFile(edtXml.Text);
+  nodeInfNfe := XMLDocument.ChildNodes.FindNode('nfeProc').ChildNodes.FindNode('NFe').ChildNodes.FindNode('infNFe');
+  for i := 0 to nodeInfNfe.ChildNodes.Count -1 do
+    begin
+      if nodeInfNfe.ChildNodes[i].NodeName = 'det' then
+        begin
+              cdsImportaXml.Insert;
+              nodeDet := nodeInfNfe.ChildNodes[i];
+              //Este If verifica se o atributo nItem é menor que 1 caso seja acrescenta 0 na frentre
+              //para mostrar no grid - exemplo veio na nota 1 = soma 0+1 = 01
+              if length(nodeDet.Attributes['nItem']) <= 1 then
+                begin
+                  cdsImportaXmlnItem.AsString := '000000' + nodeDet.Attributes['nItem'];
+                end else
+              //else //se não for menor que 1 mostra o original exemplo numero item 45 mostra o 45
+              if length(nodeDet.Attributes['nItem']) <= 2 then
+                begin
+                  cdsImportaXmlnItem.AsString := '00000' + nodeDet.Attributes['nItem'];
+                end else
+              if length(nodeDet.Attributes['nItem']) <= 3 then
+                begin
+                  cdsImportaXmlnItem.AsString := '0000' + nodeDet.Attributes['nItem'];
+                end;
+
+
+              cdsImportaXmlcProd.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['cProd'];
+              cdsImportaXmlxProd.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['xProd'];
+              cdsImportaXmlcEAN.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['cEAN'];
+              cdsImportaXmlNCM.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['NCM'];
+              cdsImportaXmlqCom.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['qCom'];
+              //cdsImportainfAdProd.AsString := nodeDet.ChildNodes.FindNode('infAdProd').ChildValues['infAdProd'];
+              cdsImportaXmlinfAdProd.AsString := nodeDet.ChildValues['infAdProd'];
+              cdsImportaXmlDescricaoNew.AsString := trim(CopyReverse(cdsImportaXmlinfAdProd.AsString, 1, 13));
+
+
+
+
+              //if ClientDataSet1CEST.AsString = '' then
+              //Verifica se existe conteudo na tag CEST se não tiver coloca a informação SEM CEST
+              if nodeDet.ChildNodes.FindNode('prod').ChildValues['CEST'] < 0 then
+              begin
+              cdsImportaXmlCEST.AsString := 'SEM CEST';
+              end
+              else
+              begin
+              cdsImportaXmlCEST.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['CEST'];
+              end;
+              cdsImportaXml.Post;
+              cdsImportaXml.First;
+            end;
+
+    end;
+end;
+
+procedure TfrmPrincipal.btnImportarXmlNormalClick(Sender: TObject);
+var
+  nodeInfNfe: IXMLNode;
+  nodeDet : IXMLNode;
+  i: Integer;
+begin
+  btnImportarXml.Enabled := False;
+  btnCompararXml.Enabled := False;
+  XMLDocument.LoadFromFile(edtXml.Text);
+  nodeInfNfe := XMLDocument.ChildNodes.FindNode('nfeProc').ChildNodes.FindNode('NFe').ChildNodes.FindNode('infNFe');
+  for i := 0 to nodeInfNfe.ChildNodes.Count -1 do
+    begin
+      if nodeInfNfe.ChildNodes[i].NodeName = 'det' then
+        begin
+              cdsImportaXml.Insert;
+              nodeDet := nodeInfNfe.ChildNodes[i];
+              //Este If verifica se o atributo nItem é menor que 1 caso seja acrescenta 0 na frentre
+              //para mostrar no grid - exemplo veio na nota 1 = soma 0+1 = 01
+              if length(nodeDet.Attributes['nItem']) <= 1 then
+                begin
+                  cdsImportaXmlnItem.AsString := '000000' + nodeDet.Attributes['nItem'];
+                end else
+              //else //se não for menor que 1 mostra o original exemplo numero item 45 mostra o 45
+              if length(nodeDet.Attributes['nItem']) <= 2 then
+                begin
+                  cdsImportaXmlnItem.AsString := '00000' + nodeDet.Attributes['nItem'];
+                end else
+              if length(nodeDet.Attributes['nItem']) <= 3 then
+                begin
+                  cdsImportaXmlnItem.AsString := '0000' + nodeDet.Attributes['nItem'];
+                end;
+
+
+              cdsImportaXmlcProd.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['cProd'];
+              cdsImportaXmlxProd.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['xProd'];
+              cdsImportaXmlcEAN.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['cEAN'];
+              cdsImportaXmlNCM.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['NCM'];
+              cdsImportaXmlqCom.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['qCom'];
+              //if ClientDataSet1CEST.AsString = '' then
+              //Verifica se existe conteudo na tag CEST se não tiver coloca a informação SEM CEST
+              if nodeDet.ChildNodes.FindNode('prod').ChildValues['CEST'] < 0 then
+              begin
+                cdsImportaXmlCEST.AsString := 'SEM CEST';
+              end
+              else
+              begin
+              cdsImportaXmlCEST.AsString := nodeDet.ChildNodes.FindNode('prod').ChildValues['CEST'];
+              end;
+              cdsImportaXml.Post;
+              cdsImportaXml.First;
+            end;
+
+    end;
+end;
+
+procedure TfrmPrincipal.btnInserirXmlClick(Sender: TObject);
+begin
+  if OpenDialog.Execute then
+    begin
+      edtXml.Text := OpenDialog.FileName;
+    end
+  else
+    begin
+      ShowMessage('Favor selecionar o arquivo !!!')
+    end;
+end;
+
+procedure TfrmPrincipal.Button1Click(Sender: TObject);
+begin
+  //cdsImportaXml.Locate('CodigoProduto', trim(edtBarras1.Text), [lopartialkey]);
+  //cdsImportaXml.Locate('CodigoProduto', Null, [lopartialkey]);
+  //cdsImportaXml.FindKey([Null]);
+
+    cdsImportaXml.Filtered := false;
+    cdsImportaXml.Filter := 'CodigoProduto = Null';
+    cdsImportaXml.Filtered := true;
+
+
+
+
+ //cdsImportaXml.FindKey([edtBarras1.Text]);
+end;
+
+procedure TfrmPrincipal.Button2Click(Sender: TObject);
+begin
+  cdsImportaXml.Filtered := False;
+end;
+
+procedure TfrmPrincipal.Button3Click(Sender: TObject);
+begin
+Edit1.Text := IntToStr(cdsImportaXml.RecordCount);
+end;
+
+procedure TfrmPrincipal.Button4Click(Sender: TObject);
+begin
+  cdsComparaXml.First;
+  cdsImportaXml.First;
+end;
+
+procedure TfrmPrincipal.DBGrid1CellClick(Column: TColumn);
+begin
+ //if DBGrid1.SelectedField.FieldName = 'P_BARRAS1' then
+  begin
+    edtBarras1.Clear;
+    edtCodigoFabrica.Text := cdsImportaXml.FieldByName('cProd').AsString;
+    if cdsImportaXml.FieldByName('DescricaoNew').AsString = '' then
+      begin
+        edtBarras1.Text := cdsImportaXml.FieldByName('cEAN').AsString;
+      end
+      else
+      begin
+        edtBarras1.Text := cdsImportaXml.FieldByName('DescricaoNew').AsString;
+      end;
+
+
+    edtDescricao.Text := cdsImportaXml.FieldByName('xProd').AsString;
+  end;
+
+   edtRemoverPalavra.Text := edtMarca.Text + ' '+ RemoverPalavras(cdsImportaXml.FieldByName('xProd').AsString,edtPalavraSerRemovida.Text) + edtReferencia.Text + ' ' + cdsImportaXml.FieldByName('cProd').AsString;
+end;
+
+procedure TfrmPrincipal.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+
+  nLinha: integer;
+  CodigoProduto2 : string;
+begin
+  // obtém o número do registro (linha)
+  nLinha := DBGrid1.DataSource.DataSet.RecNo;
+
+  // verifica se o número da linha é par ou ímpar, aplicando as cores
+  if Odd(nLinha) then
+    DBGrid1.Canvas.Brush.Color := clMenu
+  else
+    DBGrid1.Canvas.Brush.Color := clMoneyGreen;
+
+  // pinta a linha
+  DBGrid1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+
+
+
+
+
+     if not (gdSelected in State) then
+        begin
+          DBGrid1.Canvas.Font.Color:= clBlack;
+          DBGrid1.Canvas.Font.Style := [fsBold];
+        end
+   else
+        begin
+          DBGrid1.Canvas.Font.Color:= clRed; //cor se for false aqui
+          DBGrid1.Canvas.Font.Style := [fsBold];
+
+        end;
+//e este campo default aqui em baixo
+  DBGrid1.DefaultDrawDataCell(Rect, DBGrid1.columns[datacol].field, State);
+end;
+
+procedure TfrmPrincipal.DBGrid1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+if (Key = VK_LEFT)  then begin
+    Key := 0;
+    PostMessage(DBGrid1.Handle, WM_HSCROLL, 0, 0);
+  end
+  else if (Key = VK_RIGHT)  then begin
+    Key := 0;
+    PostMessage(DBGrid1.Handle, WM_HSCROLL, 1, 0);
+  end;
+end;
+
+procedure TfrmPrincipal.edtBarras1Click(Sender: TObject);
+begin
+  Clipboard.AsText := edtBarras1.Text;
+end;
+
+procedure TfrmPrincipal.edtBarras1KeyPress(Sender: TObject; var Key: Char);
+begin
+  edtBarras1.SelectAll;
+end;
+
+procedure TfrmPrincipal.edtBarras1MouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+
+  edtBarras1.SelectAll;
+
+end;
+
+procedure TfrmPrincipal.edtCodigoFabricaClick(Sender: TObject);
+begin
+  Clipboard.AsText := edtCodigoFabrica.Text;
+end;
+
+procedure TfrmPrincipal.edtCodigoFabricaMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+
+  edtCodigoFabrica.SelectAll;
+
+end;
+
+procedure TfrmPrincipal.edtDescricaoClick(Sender: TObject);
+begin
+  Clipboard.AsText := edtDescricao.Text;
+end;
+
+procedure TfrmPrincipal.edtDescricaoMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+
+  edtDescricao.SelectAll;
+
+end;
+
+procedure TfrmPrincipal.edtPesquisarBarrasChange(Sender: TObject);
+begin
+    cdsImportaXml.Locate('DescricaoNew', edtPesquisarBarras.Text, []);
+    edtBarras1.Clear;
+    edtCodigoFabrica.Text := cdsImportaXml.FieldByName('cProd').AsString;
+    edtBarras1.Text := cdsImportaXml.FieldByName('DescricaoNew').AsString;
+    edtDescricao.Text := cdsImportaXml.FieldByName('xProd').AsString;
+
+end;
+
+procedure TfrmPrincipal.edtPesquisarBarrasExit(Sender: TObject);
+begin
+  //cdsImportaXml.Locate(edtPesquisarBarras.Text, cdsImportaXml.FieldByName('DescricaoNew').AsString, []);
+  //cdsImportaXml.Locate('P_BARRAS1', edtPesquisarBarras.Text, []);
+end;
+
+procedure TfrmPrincipal.edtRemoverPalavraClick(Sender: TObject);
+begin
+  Clipboard.AsText := edtRemoverPalavra.Text;
+end;
+
+procedure TfrmPrincipal.edtRemoverPalavraKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  edtRemoverPalavra.SelectAll;
+end;
+
+procedure TfrmPrincipal.edtRemoverPalavraMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  edtRemoverPalavra.SelectAll;
+end;
+
+procedure TfrmPrincipal.ExportarToExcel;
+var
+  linha, coluna : integer;
+  planilha : variant;
+  valorcampo : string;
+begin
+
+  planilha:= CreateoleObject('Excel.Application');
+  planilha.WorkBooks.add(1);
+  planilha.caption := 'Exportando dados do dbGrid, dataset ou query para o Excel';
+  planilha.visible := true;
+
+  cdsImportaXml.First;
+  for linha := 0 to cdsImportaXml.RecordCount - 1 do
+  begin
+    for coluna := 1 to cdsImportaXml.FieldCount do
+    begin
+      valorcampo := cdsImportaXml.Fields[coluna - 1].AsString;
+      planilha.cells[linha + 2,coluna] := valorCampo;
+    end;
+    cdsImportaXml.Next;
+  end;
+  for coluna := 1 to cdsImportaXml.FieldCount do
+  begin
+    valorcampo := cdsImportaXml.Fields[coluna - 1].DisplayLabel;
+    planilha.cells[1,coluna] := valorcampo;
+  end;
+  planilha.columns.Autofit;
+end;
+
+end.

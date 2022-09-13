@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/06/18 14:19:27.000.079,=C:\Users\henri\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/06/18 14:21:03.000.986,C:\Users\henri\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas=C:\Desenvolvimento\ImportaEntradaReverse\uPrincipal.pas</Transaction>
+    <Transaction>2021/06/18 14:21:03.000.986,C:\Users\henri\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.dfm=C:\Desenvolvimento\ImportaEntradaReverse\uPrincipal.dfm</Transaction>
+    <Transaction>2021/06/18 14:21:12.000.920,C:\Users\henri\OneDrive\Documentos\Embarcadero\Studio\Projects\Project1.dproj=C:\Desenvolvimento\ImportaEntradaReverse\ImportaXmlReverse.dproj</Transaction>
+    <Transaction>2021/06/18 15:14:05.000.432,=C:\Desenvolvimento\ImportaEntradaReverse\Unit1.pas</Transaction>
+    <Transaction>2021/06/18 15:33:37.000.665,C:\Desenvolvimento\ImportaEntradaReverse\Unit1.pas=C:\Desenvolvimento\ImportaEntradaReverse\uCodigoBarras.pas</Transaction>
+    <Transaction>2021/06/18 15:33:37.000.665,C:\Desenvolvimento\ImportaEntradaReverse\Unit1.dfm=C:\Desenvolvimento\ImportaEntradaReverse\uCodigoBarras.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

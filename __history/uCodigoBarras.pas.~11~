@@ -1,0 +1,81 @@
+unit uCodigoBarras;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.FMTBcd, Datasnap.DBClient,
+  Datasnap.Provider, Data.SqlExpr, Vcl.Grids, Vcl.DBGrids, Data.DBXFirebird;
+
+type
+  TfrmGenero = class(TForm)
+    DBGrid1: TDBGrid;
+    conexaoBd: TSQLConnection;
+    sdsProdutos: TSQLDataSet;
+    dspProdutos: TDataSetProvider;
+    cdsProdutos: TClientDataSet;
+    dsProdutos: TDataSource;
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmGenero: TfrmGenero;
+
+implementation
+
+{$R *.dfm}
+
+uses uPrincipal;
+
+procedure TfrmGenero.FormShow(Sender: TObject);
+begin
+  sdsProdutos.Close;
+    with cdsProdutos do
+       begin
+          Close;
+          CommandText := 'SELECT * FROM PRODUTOS WHERE P_BARRAS1 LIKE' + QuotedStr('%'+frmPrincipal.edtBarras1.Text+'%');
+          Open;
+      end;
+  sdsProdutos.Open;
+
+  cdsProdutos.Edit;
+  if cdsProdutos.FieldByName('P_MASCULINO').AsString = 'T' then
+    begin
+
+      cdsProdutos.FieldByName('P_MASCULINO').AsString := 'MASCULINO'
+    end
+    else
+    begin
+      cdsProdutos.FieldByName('P_MASCULINO').AsString := ''
+    end;
+
+
+  cdsProdutos.Edit;
+  if cdsProdutos.FieldByName('P_FEMININO').AsString = 'T' then
+    begin
+
+      cdsProdutos.FieldByName('P_FEMININO').AsString := 'FEMININO'
+    end
+    else
+    begin
+      cdsProdutos.FieldByName('P_FEMININO').AsString := ''
+    end;
+
+
+  cdsProdutos.Edit;
+  if cdsProdutos.FieldByName('P_UNISSEX').AsString = 'T' then
+    begin
+
+      cdsProdutos.FieldByName('P_UNISSEX').AsString := 'UNISSEX'
+    end
+    else
+    begin
+      cdsProdutos.FieldByName('P_UNISSEX').AsString := ''
+    end;
+end;
+
+end.
